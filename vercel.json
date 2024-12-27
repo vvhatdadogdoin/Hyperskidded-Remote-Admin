@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "*.py": {
+      "runtime": "vercel-python@latest"
+    }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/main.py" }
+  ]
+}
