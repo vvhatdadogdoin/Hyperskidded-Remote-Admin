@@ -1,6 +1,5 @@
 ## NOTE: This may use stuff that are publicly shared by loaders, such as blacklisted require IDs that are blacklisted by Skid Shield, which is provided by SecLoad.
 
-from typing import Text
 import discord
 import colorama
 import os
