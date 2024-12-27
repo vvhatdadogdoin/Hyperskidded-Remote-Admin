@@ -1,5 +1,4 @@
 flask
 colorama
-asyncio
 requests
 discord.py
