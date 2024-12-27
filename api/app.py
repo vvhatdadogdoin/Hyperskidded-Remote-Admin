@@ -57,7 +57,7 @@ Contact clientruncontext for any appeals or whitelist requests you have.
       # but will not add the data to the queue if something unexpected happens
       return jsonify({"status": "error", "message": str(e)}), 400
 
-  app.run(host = "0.0.0.0", port = 5000, debug = False, use_reloader = False)
+  app.run()
 
 
 def main2(): # the discord bot itself
