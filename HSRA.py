@@ -52,7 +52,7 @@ Contact clientruncontext for any appeals or whitelist requests you have.
         raise ValueError("Invalid JSON data.")
 
       # will add the data to the queue if its a valid json
-      request_queue.put(data)
+      request_queue.append(data)
       return jsonify({"status": "data_recieved", "message": "Data recieved."})
     except Exception as e:
       # but will not add the data to the queue if something unexpected happens
