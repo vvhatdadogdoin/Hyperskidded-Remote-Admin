@@ -1,0 +1,5 @@
+flask
+colorama
+asyncio
+requests
+discord
