@@ -62,7 +62,7 @@ Contact clientruncontext for any appeals or whitelist requests you have.
 
 def main2(): # the discord bot itself
   bot = commands.Bot(command_prefix = ">", intents = discord.Intents.all())
-  url = "https://38fbe3b0-2972-49a8-b3ae-387382344ce2-00-34ks7whjtzntm.kirk.replit.dev/"
+  url = "https://hyperskidded-remote-admin.onrender.com"
   
   @bot.event
   async def on_connect():
