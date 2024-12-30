@@ -31,7 +31,6 @@ Contact clientruncontext for any appeals or whitelist requests you have.
     print(f"[{Fore.GREEN}Web server{Fore.RESET}]: Data poll has started.")
     
     while time.time() - start_time < 30:
-      print(f"[{Fore.GREEN}Web server{Fore.RESET}]: Checking request queue")
       # print(f"[{Fore.GREEN}Web server{Fore.RESET}]: Current queue state", list(request_queue.queue))
 
       if request_queue:
