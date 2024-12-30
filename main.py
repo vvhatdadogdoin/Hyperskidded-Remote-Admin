@@ -39,7 +39,7 @@ Contact clientruncontext for any appeals or whitelist requests you have.
         print(f"[{Fore.GREEN}HWeb server{Fore.RESET}]: Recieved data: {data}")
         return jsonify({"status": "data_received", "params": data})
         
-      time.sleep(1)
+      time.sleep(0.5)
     
     return jsonify({"status": "no_data", "params": None})
 
@@ -62,7 +62,7 @@ Contact clientruncontext for any appeals or whitelist requests you have.
 
 def main2(): # the discord bot itself
   bot = commands.Bot(command_prefix = ">", intents = discord.Intents.all())
-  url = "https://hyperskidded-remote-admin.onrender.com"
+  url = "https://hyperskidded-remote-admin.onrender.com/"
   
   @bot.event
   async def on_connect():
