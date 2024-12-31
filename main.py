@@ -32,7 +32,7 @@ def createSession(channelid, message, sessionname):
     'message': message
   }
 
-  response = requests.post(f"https://discord.com/api/v9/channels/{channelid}/threads", headers=headers, json=payload)
+  response = requests.post(f"https://discord.com/api/v9/channels/{channelid}/threads?use_nested_fields=true", headers=headers, json=payload)
 
 def passthroughsessioncheck(): # im making this as a decorator so that it will be easier
   def decorator(func):
@@ -94,11 +94,11 @@ def createsession():
     if not data:
       raise ValueError("Invalid JSON data")
     
-    channelid = int(data.get("channel_id")) # on the lua side, i would get an warning that the channel id surpasses the 64-bit integer limit, so i made the lua side send the channel id as a string and once the webserver recieves the string it will convert it back to an integer
-    message = data.get("message")
-    sessionname = data.get("session_name")
+    channel_id = int(data.get("channel_id")) # on the lua side, i would get an warning that the channel id surpasses the 64-bit integer limit, so i made the lua side send the channel id as a string and once the webserver recieves the string it will convert it back to an integer
+    Message = data.get("message")
+    sessionName = data.get("session_name")
 
-    createSession(channelid = channelid, message = message, sessionname = sessionname)
+    createSession(channelid = channel_id, message = Message, sessionname = sessionName)
 
     return jsonify({"status": "success"}), 200
   except Exception as e:
