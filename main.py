@@ -29,10 +29,10 @@ def createSession(channelid, message, sessionname):
   payload = {
     'name': sessionname,
     'type': 11,
-    'message': message
+    'start_message': message
   }
 
-  response = requests.post(f"https://discord.com/api/v9/channels/{channelid}/threads?use_nested_fields=true", headers=headers, json=payload)
+  response = requests.post(f"https://discord.com/api/v10/channels/{channelid}/threads?use_nested_fields=true", headers=headers, json=payload)
 
 def passthroughsessioncheck(): # im making this as a decorator so that it will be easier
   def decorator(func):
