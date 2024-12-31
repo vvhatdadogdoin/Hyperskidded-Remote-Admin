@@ -202,7 +202,7 @@ async def ban(ctx, player, *, message):
 
 @bot.command()
 @passthroughsessioncheck()
-async def ban(ctx, player, *, message):
+async def kick(ctx, player, *, message):
   data = {
     "Action": "kick",
     "Reason": message,
