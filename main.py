@@ -210,7 +210,7 @@ async def ban(ctx, player, *, message):
     await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command()
-async def ban(ctx, player, *, message):
+async def kick(ctx, player, *, message):
   if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
