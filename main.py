@@ -154,7 +154,7 @@ async def cmds(ctx):
 
 @bot.command(aliases=["chatmessage", "cmessage", "chatm"])
 async def cm(ctx, *, message):
-  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+  if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return # would not continue if the channel isnt a session
 
@@ -173,7 +173,7 @@ async def cm(ctx, *, message):
 
 @bot.command(aliases=["chatsystemmessage", "csystemmessage", "csmessage"])
 async def csm(ctx, *, message):
-  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+  if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
   
@@ -192,7 +192,7 @@ async def csm(ctx, *, message):
 
 @bot.command()
 async def ban(ctx, player, *, message):
-  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+  if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
   
@@ -211,7 +211,7 @@ async def ban(ctx, player, *, message):
 
 @bot.command()
 async def kick(ctx, player, *, message):
-  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+  if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
 
