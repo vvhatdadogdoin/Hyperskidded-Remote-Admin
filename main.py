@@ -157,76 +157,76 @@ async def cm(ctx, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return # would not continue if the channel isnt a session
+  else:
+    data = {
+      "Action": "sendchatannouncement1",
+      "Message": message,
+      "User": ctx.message.author.name,
+      "Session": ctx.channel.name
+    }
 
-  data = {
-    "Action": "sendchatannouncement1",
-    "Message": message,
-    "User": ctx.message.author.name,
-    "Session": ctx.channel.name
-  }
-
-  try:
-    requests.post(url + "send-data", json=data, timeout = 40)
-    await ctx.send("Successfully sent message.")
-  except Exception as err:
-    await ctx.send("Error occured while sending request: " + str(err))
+    try:
+      requests.post(url + "send-data", json=data, timeout = 40)
+      await ctx.send("Successfully sent message.")
+    except Exception as err:
+      await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command(aliases=["chatsystemmessage", "csystemmessage", "csmessage"])
 async def csm(ctx, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
-  
-  data = {
-    "Action": "sendchatannouncement2",
-    "Message": message,
-    "User": ctx.message.author.name,
-    "Session": ctx.channel.name
-  }
+  else:
+    data = {
+      "Action": "sendchatannouncement2",
+      "Message": message,
+      "User": ctx.message.author.name,
+      "Session": ctx.channel.name
+    }
 
-  try:
-    requests.post(url + "send-data", json=data, timeout = 40)
-    await ctx.send("Successfully sent message.")
-  except Exception as err:
-    await ctx.send("Error occured while sending request: " + str(err))
+    try:
+      requests.post(url + "send-data", json=data, timeout = 40)
+      await ctx.send("Successfully sent message.")
+    except Exception as err:
+      await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command()
 async def ban(ctx, player, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
+  else:
+    data = {
+      "Action": "ban",
+      "Reason": message,
+      "Player": player,
+      "Session": ctx.channel.name
+    }
   
-  data = {
-    "Action": "ban",
-    "Reason": message,
-    "Player": player,
-    "Session": ctx.channel.name
-  }
-
-  try:
-    requests.post(url + "send-data", json=data, timeout = 40)
-    await ctx.send("Successfully banned player from session.")
-  except Exception as err:
-    await ctx.send("Error occured while sending request: " + str(err))
+    try:
+      requests.post(url + "send-data", json=data, timeout = 40)
+      await ctx.send("Successfully banned player from session.")
+    except Exception as err:
+      await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command()
 async def kick(ctx, player, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
     await ctx.send("This channel is not a session channel.")
     return
-
-  data = {
-    "Action": "kick",
-    "Reason": message,
-    "Player": player,
-    "Session": ctx.channel.name
-  }
-
-  try:
-    requests.post(url + "send-data", json=data, timeout = 40)
-    await ctx.send("Successfully kicked player from session.")
-  except Exception as err:
-    await ctx.send("Error occured while sending request: " + str(err))
+  else:
+    data = {
+      "Action": "kick",
+      "Reason": message,
+      "Player": player,
+      "Session": ctx.channel.name
+    }
+  
+    try:
+      requests.post(url + "send-data", json=data, timeout = 40)
+      await ctx.send("Successfully kicked player from session.")
+    except Exception as err:
+      await ctx.send("Error occured while sending request: " + str(err))
 
 def main2():  
   if __name__ == "__main__":
