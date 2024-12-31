@@ -153,8 +153,11 @@ async def cmds(ctx):
     """)
 
 @bot.command(aliases=["chatmessage", "cmessage", "chatm"])
-@passthroughsessioncheck()
 async def cm(ctx, *, message):
+  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+    await ctx.send("This channel is not a session channel.")
+    return # would not continue if the channel isnt a session
+
   data = {
     "Action": "sendchatannouncement1",
     "Message": message,
@@ -169,8 +172,11 @@ async def cm(ctx, *, message):
     await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command(aliases=["chatsystemmessage", "csystemmessage", "csmessage"])
-@passthroughsessioncheck()
 async def csm(ctx, *, message):
+  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+    await ctx.send("This channel is not a session channel.")
+    return
+  
   data = {
     "Action": "sendchatannouncement2",
     "Message": message,
@@ -185,8 +191,11 @@ async def csm(ctx, *, message):
     await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command()
-@passthroughsessioncheck()
 async def ban(ctx, player, *, message):
+  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+    await ctx.send("This channel is not a session channel.")
+    return
+  
   data = {
     "Action": "ban",
     "Reason": message,
@@ -201,8 +210,11 @@ async def ban(ctx, player, *, message):
     await ctx.send("Error occured while sending request: " + str(err))
 
 @bot.command()
-@passthroughsessioncheck()
-async def kick(ctx, player, *, message):
+async def ban(ctx, player, *, message):
+  if not isinstance(ctx.channel, discord.Thread) and ctx.channel.name.startswith("hsra-session-"):
+    await ctx.send("This channel is not a session channel.")
+    return
+
   data = {
     "Action": "kick",
     "Reason": message,
