@@ -28,8 +28,11 @@ def createSession(channelid, message, sessionname):
 
   payload = {
     'name': sessionname,
-    'type': 11,
-    'start_message': message
+    'auto_archive_duration': 4320,
+    'applied_tags': [],
+    'message': {
+      'content': message
+    }
   }
 
   response = requests.post(f"https://discord.com/api/v10/channels/{channelid}/threads?use_nested_fields=true", headers=headers, json=payload)
