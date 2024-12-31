@@ -22,7 +22,7 @@ token = os.environ["HSRA_TOKEN"]
 
 def createSession(channelid, message, sessionname):
   headers = {
-    "Authorization": f"{token}",
+    "Authorization": f"Bot {token}",
     "Content-Type": "application/json"
   }
 
