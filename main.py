@@ -22,14 +22,17 @@ token = os.environ["HSRA_TOKEN"]
 
 def createSession(channelid, message, sessionname):
   headers = {
-    "Authorization": f"{token}",
+    "Authorization": f"Bot {token}",
     "Content-Type": "application/json"
   }
 
   payload = {
-    'name': sessionname,
-    'type': 11,
-    'message': message
+    "name": sessionname,
+    "auto_archive_duration": 4320,
+    "applied_tags": [],
+    "message": {
+      "content": message
+    }
   }
 
   response = requests.post(f"https://discord.com/api/v9/channels/{channelid}/threads", headers=headers, json=payload)
