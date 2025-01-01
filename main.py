@@ -426,8 +426,8 @@ async def cm(ctx, *, message):
     }
 
     try:
-      requests.post(url + "send-data", headers=AUTHORIZATION_HEADERS, json=data, timeout = 40)
-      if request.status_code == 404:
+      sentrequest = requests.post(url + "send-data", headers=AUTHORIZATION_HEADERS, json=data, timeout = 40)
+      if sentrequest.status_code == 404:
         embed = discord.Embed(
           color = discord.Color.green(),
           title = "Warning",
@@ -479,8 +479,8 @@ async def csm(ctx, *, message):
     }
 
     try:
-      requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if request.status_code == 404:
+      sentrequest = requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 404:
         embed = discord.Embed(
           color = discord.Color.green(),
           title = "Warning",
@@ -532,8 +532,8 @@ async def ban(ctx, player, *, message):
     }
   
     try:
-      requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if request.status_code == 404:
+      sentrequest = requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 404:
         embed = discord.Embed(
           color = discord.Color.green(),
           title = "Warning",
@@ -586,8 +586,8 @@ async def kick(ctx, player, *, message):
     }
   
     try:
-      requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if request.status_code == 404:
+      sentrequest = requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 404:
         embed = discord.Embed(
           color = discord.Color.green(),
           title = "Warning",
