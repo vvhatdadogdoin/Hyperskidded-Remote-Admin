@@ -59,14 +59,6 @@ class HttpBan(db.Model):
 with app.app_context():
   db.create_all()
 
-def securitycheck():
-  if request.path in EXCLUDED_PATHS:
-    return None
-
-  api_key = request.headers.get('Authorization')
-  if api_key != f'Bearer {token}':
-    abort(403)
-
 def createSession(channelid, message, sessionname):
   headers = {
     "Authorization": f"Bot {token}",
@@ -106,9 +98,9 @@ NOTE: This isn't where you should be, as this is only the API for Hyperksidded R
 Contact clientruncontext on Discord for any reports or whitelist requests you have.
   """
 
-@app.before_request
-def before_request():
-  securitycheck()
+# @app.before_request
+# def before_request():
+#   securitycheck()
 
 @app.route("/data-poll", methods=["GET", "POST"])
 def pollfordata():
@@ -135,6 +127,10 @@ def whitelist():
   if not uid:
     return jsonify({"status": "error", "message": "User Id is not specified."}), 400
   
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+  
   try:
     existing_user = Whitelist.query.filter_by(discord_user_id=uid).first()
 
@@ -159,6 +155,10 @@ def removewhitelist():
   if not uid:
     return jsonify({"status": "error", "message": "User Id is required."}), 400
   
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+  
   try:
     existing_user = Whitelist.query.filter_by(discord_user_id=uid).first()
 
@@ -176,6 +176,10 @@ def removewhitelist():
   
 @app.route("/get-whitelists", methods=["GET"])
 def getwhitelists():
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+
   try:
     whitelist_entries = Whitelist.query.all()
 
@@ -195,6 +199,10 @@ def getwhitelists():
 def banswhitelist():
   data = request.get_json()
   uid = data.get("user_id")
+
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
 
   if not uid:
     return jsonify({"status": "error", "message": "User Id is not specified."}), 400
@@ -220,6 +228,10 @@ def removebanswhitelist():
   data = request.get_json()
   uid = data.get("user_id")
 
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+
   if not uid:
     return jsonify({"status": "error", "message": "User Id is required."}), 400
   
@@ -240,6 +252,10 @@ def removebanswhitelist():
   
 @app.route("/get-bans-whitelists", methods=["GET"])
 def getbanswhitelists():
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+
   try:
     bans_whitelist_entries = BansWhitelist.query.all()
 
@@ -257,6 +273,10 @@ def getbanswhitelists():
 
 @app.route("/send-data", methods=["POST"]) ## the endpoint used to send data to the long poll
 def senddata():
+  api_key = request.headers.get('Authorization')
+  if api_key != f'Bearer {token}':
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+  
   try:
     data = request.get_json()
     if not data: # will throw a valueerror if this has invalid json data
