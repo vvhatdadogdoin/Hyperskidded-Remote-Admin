@@ -3,3 +3,5 @@ colorama
 requests
 discord.py
 asyncio
+sqlalchemy
+psycopg2-binary
