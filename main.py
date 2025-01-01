@@ -576,7 +576,7 @@ async def closesession(ctx):
 
 @bot.command(aliases=["wl"])
 async def whitelist(ctx, user: discord.User):
-  if ctx.author.id == owner_id:
+  if ctx.author.id == int(owner_id):
     data = {
       "user_id": user.id
     }
@@ -614,7 +614,7 @@ async def whitelist(ctx, user: discord.User):
 
 @bot.command(aliases=["bl"])
 async def blacklist(ctx, user: discord.User):
-  if ctx.author.id == owner_id:
+  if ctx.author.id == int(owner_id):
     data = {
       "user_id": user.id
     }
@@ -652,7 +652,7 @@ async def blacklist(ctx, user: discord.User):
 
 @bot.command(aliases=["bbl", "bansbl"])
 async def bansblacklist(ctx, user: discord.User):
-  if ctx.author.id == owner_id:
+  if ctx.author.id == int(owner_id):
     data = {
       "user_id": user.id
     }
@@ -690,7 +690,7 @@ async def bansblacklist(ctx, user: discord.User):
   
 @bot.command(aliases=["bwl", "banswl", "bwhitelist"])
 async def banswhitelist(ctx, user: discord.User):
-  if ctx.author.id == owner_id:
+  if ctx.author.id == int(owner_id):
     data = {
       "user_id": user.id
     }
