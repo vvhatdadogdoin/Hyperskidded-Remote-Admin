@@ -262,6 +262,12 @@ def senddata():
     if not data: # will throw a valueerror if this has invalid json data
       raise ValueError("Invalid JSON data.")
     
+    # before appending the data to the queue, a check will be done
+    is_whitelisted = Whitelist.query.filter_by(discord_user_id=data.Sender).first()
+
+    if not is_whitelisted:
+      return jsonify({"status": "forbidden", "message": "You are not whitelisted"}), 404
+
     # will add the data to the queue if its a valid json
     request_queue.append(data)
     return jsonify({"status": "data_recieved", "message": "Data recieved."}), 200
@@ -401,15 +407,25 @@ async def cm(ctx, *, message):
 
     try:
       requests.post(url + "send-data", headers=AUTHORIZATION_HEADERS, json=data, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        title = "Success",
-        description = "Successfully sent message to the session."
-      )
-      embed.add_field(name="Message", value=message, inline=False)
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      if request.status_code == 404:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Warning",
+          description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Success",
+          description = "Successfully sent message to the session."
+        )
+        embed.add_field(name="Message", value=message, inline=False)
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -438,20 +454,31 @@ async def csm(ctx, *, message):
       "Action": "sendchatannouncement2",
       "Message": message,
       "User": ctx.message.author.name,
-      "Session": ctx.channel.name
+      "Session": ctx.channel.name,
+      "Sender": ctx.author.id
     }
 
     try:
       requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        title = "Success",
-        description = "Successfully sent message to the session."
-      )
-      embed.add_field(name="Message", value=message, inline=False)
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      if request.status_code == 404:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Warning",
+          description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Success",
+          description = "Successfully sent message to the session."
+        )
+        embed.add_field(name="Message", value=message, inline=False)
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -480,21 +507,32 @@ async def ban(ctx, player, *, message):
       "Action": "ban",
       "Reason": message,
       "Player": player,
-      "Session": ctx.channel.name
+      "Session": ctx.channel.name,
+      "Sender": ctx.author.id
     }
   
     try:
       requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        title = "Success",
-        description = "Successfully banned player from session."
-      )
-      embed.add_field(name="Player", value=player, inline=True)
-      embed.add_field(name="Reason", value=message, inline=True)
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      if request.status_code == 404:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Warning",
+          description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Success",
+          description = "Successfully banned player from session."
+        )
+        embed.add_field(name="Player", value=player, inline=True)
+        embed.add_field(name="Reason", value=message, inline=True)
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -523,21 +561,32 @@ async def kick(ctx, player, *, message):
       "Action": "kick",
       "Reason": message,
       "Player": player,
-      "Session": ctx.channel.name
+      "Session": ctx.channel.name,
+      "Sender": ctx.author.id
     }
   
     try:
       requests.post(url + "send-data", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        description = "Successfully kicked player from session.",
-        title = "Success"
-      )
-      embed.add_field(name="Player", value=player, inline=True)
-      embed.add_field(name="Reason", value=message, inline=True)
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      if request.status_code == 404:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Warning",
+          description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          description = "Successfully kicked player from session.",
+          title = "Success"
+        )
+        embed.add_field(name="Player", value=player, inline=True)
+        embed.add_field(name="Reason", value=message, inline=True)
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -563,15 +612,27 @@ async def closesession(ctx):
     return
   else:
     try:
-      embed = discord.Embed(
-        color = discord.Color.yellow(),
-        title = "Warning",
-        description = "This session is closing..."
-      )
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
-      await ctx.send(embed=embed)
-      await ctx.channel.delete()
+      is_whitelisted = Whitelist.query.filter_by(discord_user_id=ctx.author.id).first()
+
+      if not is_whitelisted:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          title = "Warning",
+          description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.yellow(),
+          title = "Warning",
+          description = "This session is closing..."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+        await ctx.send(embed=embed)
+        await ctx.channel.delete()
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
