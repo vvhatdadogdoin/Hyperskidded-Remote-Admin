@@ -594,7 +594,7 @@ async def whitelist(ctx, user: discord.User):
       requests.post(url + "whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
       embed = discord.Embed(
         color = discord.Color.green(),
-        description = f"Successfully whitelisted user {user}",
+        description = f"Successfully whitelisted {user}",
         title = "Success"
       )
       embed.timestamp = discord.utils.utcnow()
@@ -708,7 +708,7 @@ async def banswhitelist(ctx, user: discord.User):
       requests.post(url + "bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
       embed = discord.Embed(
         color = discord.Color.green(),
-        description = f"Successfully whitelisted user {user} to use banning commands.",
+        description = f"Successfully whitelisted {user} to use banning commands.",
         title = "Success"
       )
       embed.timestamp = discord.utils.utcnow()
