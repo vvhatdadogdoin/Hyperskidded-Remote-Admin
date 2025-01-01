@@ -106,7 +106,7 @@ NOTE: This isn't where you should be, as this is only the API for Hyperksidded R
 Contact clientruncontext on Discord for any reports or whitelist requests you have.
   """
 
-@app.beforerequest
+@app.before_request
 def before_request():
   securitycheck()
 
