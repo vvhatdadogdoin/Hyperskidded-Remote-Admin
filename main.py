@@ -22,20 +22,17 @@ token = os.environ["HSRA_TOKEN"]
 
 def createSession(channelid, message, sessionname):
   headers = {
-    "Authorization": f"Bot {token}",
+    "Authorization": f"{token}",
     "Content-Type": "application/json"
   }
 
   payload = {
     'name': sessionname,
-    'auto_archive_duration': 4320,
-    'applied_tags': [],
-    'message': {
-      'content': message
-    }
+    'type': 11,
+    'message': message
   }
 
-  response = requests.post(f"https://discord.com/api/v10/channels/{channelid}/threads?use_nested_fields=true", headers=headers, json=payload)
+  response = requests.post(f"https://discord.com/api/v9/channels/{channelid}/threads", headers=headers, json=payload)
 
 def passthroughsessioncheck(): # im making this as a decorator so that it will be easier
   def decorator(func):
@@ -97,11 +94,11 @@ def createsession():
     if not data:
       raise ValueError("Invalid JSON data")
     
-    channel_id = int(data.get("channel_id")) # on the lua side, i would get an warning that the channel id surpasses the 64-bit integer limit, so i made the lua side send the channel id as a string and once the webserver recieves the string it will convert it back to an integer
-    Message = data.get("message")
-    sessionName = data.get("session_name")
+    channelid = int(data.get("channel_id")) # on the lua side, i would get an warning that the channel id surpasses the 64-bit integer limit, so i made the lua side send the channel id as a string and once the webserver recieves the string it will convert it back to an integer
+    message = data.get("message")
+    sessionname = data.get("session_name")
 
-    createSession(channelid = channel_id, message = Message, sessionname = sessionName)
+    createSession(channelid = channelid, message = message, sessionname = sessionname)
 
     return jsonify({"status": "success"}), 200
   except Exception as e:
@@ -121,20 +118,56 @@ async def on_command_error(ctx, error):
   try:
     await ctx.message.delete()
   except Exception as err:
-    print(f"[{Fore.GREEN}Hyperskidded Remote Admin{Fore.RESET}]: Error while deleting command message: {err}")
+    embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+    )
+    embed.add_field(name="Details", value=err, inline=False)
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+    await ctx.send(embed=embed)
 
   if isinstance(error, commands.CommandNotFound):
-    await ctx.send(f"Error: {ctx.message.content} is not a valid command.", delete_after = 5)
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This command isn't valid."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
     print(f"[{Fore.GREEN}Hyperskidded Remote Admin{Fore.RESET}]: Invalid command ran: {ctx.message.content}")
 
   if isinstance(error, commands.CheckFailure):
-    await ctx.send("Error: You do not have the necessary permissions to run this command.", delete_after = 5)
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "You do not have the necessary permissions to use this command."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
 
   if isinstance(error, commands.BadArgument):
-    await ctx.send("Error: You provided invalid arguments to the specified command.", delete_after = 5)
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "Invalid arguments were provided to the command."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
 
   if isinstance(error, commands.MissingRequiredArgument):
-    await ctx.send("Error: You provided missing arguments to the specified command.", delete_after = 5)
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "Missing arguments were provided to the command."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
 
 @bot.event
 async def on_command(ctx):
@@ -158,7 +191,14 @@ async def cmds(ctx):
 @bot.command(aliases=["chatmessage", "cmessage", "chatm"])
 async def cm(ctx, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
-    await ctx.send("This channel is not a session channel.")
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This channel is not a session channel."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
     return # would not continue if the channel isnt a session
   else:
     data = {
@@ -170,14 +210,37 @@ async def cm(ctx, *, message):
 
     try:
       requests.post(url + "send-data", json=data, timeout = 40)
-      await ctx.send("Successfully sent message.")
+      embed = discord.Embed(
+        color = discord.Color.green(),
+        title = "Success",
+        description = "Successfully sent message to the session."
+      )
+      embed.add_field(name="Message", value=message, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
     except Exception as err:
-      await ctx.send("Error occured while sending request: " + str(err))
+      embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+      )
+      embed.add_field(name="Details", value=err, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
 
 @bot.command(aliases=["chatsystemmessage", "csystemmessage", "csmessage"])
 async def csm(ctx, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
-    await ctx.send("This channel is not a session channel.")
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This channel is not a session channel."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
     return
   else:
     data = {
@@ -189,14 +252,37 @@ async def csm(ctx, *, message):
 
     try:
       requests.post(url + "send-data", json=data, timeout = 40)
-      await ctx.send("Successfully sent message.")
+      embed = discord.Embed(
+        color = discord.Color.green(),
+        title = "Success",
+        description = "Successfully sent message to the session."
+      )
+      embed.add_field(name="Message", value=message, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
     except Exception as err:
-      await ctx.send("Error occured while sending request: " + str(err))
+      embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+      )
+      embed.add_field(name="Details", value=err, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
 
 @bot.command()
 async def ban(ctx, player, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
-    await ctx.send("This channel is not a session channel.")
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This channel is not a session channel."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
     return
   else:
     data = {
@@ -208,14 +294,38 @@ async def ban(ctx, player, *, message):
   
     try:
       requests.post(url + "send-data", json=data, timeout = 40)
-      await ctx.send("Successfully banned player from session.")
+      embed = discord.Embed(
+        color = discord.Color.green(),
+        title = "Success",
+        description = "Successfully banned player from session."
+      )
+      embed.add_field(name="Player", value=player, inline=True)
+      embed.add_field(name="Reason", value=message, inline=True)
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
     except Exception as err:
-      await ctx.send("Error occured while sending request: " + str(err))
+      embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+      )
+      embed.add_field(name="Details", value=err, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
 
 @bot.command()
 async def kick(ctx, player, *, message):
   if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
-    await ctx.send("This channel is not a session channel.")
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This channel is not a session channel."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
     return
   else:
     data = {
@@ -227,14 +337,30 @@ async def kick(ctx, player, *, message):
   
     try:
       requests.post(url + "send-data", json=data, timeout = 40)
-      await ctx.send("Successfully kicked player from session.")
+      embed = discord.Embed(
+        color = discord.Color.green(),
+        description = "Successfully kicked player from session.",
+        title = "Success"
+      )
+      embed.add_field(name="Player", value=player, inline=True)
+      embed.add_field(name="Reason", value=message, inline=True)
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
     except Exception as err:
-      await ctx.send("Error occured while sending request: " + str(err))
+      embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+      )
+      embed.add_field(name="Details", value=err, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
 
 def main2():  
   if __name__ == "__main__":
     bot.run(token)
-
 
 if __name__ == "__main__": # uses threading to start both the web server and the discord bot in parallel, so that they dont block each other
   webserver = threading.Thread(target=main1, daemon=True)
