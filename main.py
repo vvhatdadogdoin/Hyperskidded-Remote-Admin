@@ -125,7 +125,7 @@ async def on_command_error(ctx, error):
     )
     embed.add_field(name="Details", value=err, inline=False)
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
     await ctx.send(embed=embed)
 
   if isinstance(error, commands.CommandNotFound):
@@ -135,7 +135,7 @@ async def on_command_error(ctx, error):
         description = "This command isn't valid."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
     print(f"[{Fore.GREEN}Hyperskidded Remote Admin{Fore.RESET}]: Invalid command ran: {ctx.message.content}")
 
@@ -146,7 +146,7 @@ async def on_command_error(ctx, error):
         description = "You do not have the necessary permissions to use this command."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
 
   if isinstance(error, commands.BadArgument):
@@ -156,7 +156,7 @@ async def on_command_error(ctx, error):
         description = "Invalid arguments were provided to the command."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
 
   if isinstance(error, commands.MissingRequiredArgument):
@@ -166,7 +166,7 @@ async def on_command_error(ctx, error):
         description = "Missing arguments were provided to the command."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
 
 @bot.event
@@ -197,7 +197,7 @@ async def cm(ctx, *, message):
         description = "This channel is not a session channel."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
     return # would not continue if the channel isnt a session
   else:
@@ -227,7 +227,7 @@ async def cm(ctx, *, message):
       )
       embed.add_field(name="Details", value=err, inline=False)
       embed.timestamp = discord.utils.utcnow()
-      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
 
 @bot.command(aliases=["chatsystemmessage", "csystemmessage", "csmessage"])
@@ -239,7 +239,7 @@ async def csm(ctx, *, message):
         description = "This channel is not a session channel."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
     return
   else:
@@ -269,7 +269,7 @@ async def csm(ctx, *, message):
       )
       embed.add_field(name="Details", value=err, inline=False)
       embed.timestamp = discord.utils.utcnow()
-      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
 
 @bot.command()
@@ -281,7 +281,7 @@ async def ban(ctx, player, *, message):
         description = "This channel is not a session channel."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
     return
   else:
@@ -312,7 +312,7 @@ async def ban(ctx, player, *, message):
       )
       embed.add_field(name="Details", value=err, inline=False)
       embed.timestamp = discord.utils.utcnow()
-      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
 
 @bot.command()
@@ -324,7 +324,7 @@ async def kick(ctx, player, *, message):
         description = "This channel is not a session channel."
     )
     embed.timestamp = discord.utils.utcnow()
-    embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
     await ctx.send(embed=embed)
     return
   else:
@@ -355,7 +355,7 @@ async def kick(ctx, player, *, message):
       )
       embed.add_field(name="Details", value=err, inline=False)
       embed.timestamp = discord.utils.utcnow()
-      embed.setfooter(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
 
 def main2():  
