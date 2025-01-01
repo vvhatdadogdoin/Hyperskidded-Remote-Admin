@@ -362,13 +362,22 @@ async def on_command(ctx):
 
 @bot.command(aliases=["commands"])
 async def cmds(ctx):
-  await ctx.send("""
-**Hyperskidded Remote Admin** - Commands
-> `>cmds` - Shows this message
-> `>cm` - Sends a message to every running server in the game, name displayed.
-> `>csm` - Sends a message to every running server in the game, name not displayed.
-> `>ban` - Server bans the specified user from the game temporarily.
-    """)
+  embed = discord.Embed(
+    color = discord.Color.lighter_gray(),
+    title = "Commands"
+  )
+  embed.add_field(name="cm `message` (aliases: chatm, chatmessage, cmessage)", value="Sends a chat message to the session, name displayed.", inline=False)
+  embed.add_field(name="csm `message` (aliases: chatsystemmessage, csystemmessage, csmessage)", value="Sends a chat message to the session, no name displayed", inline=False)
+  embed.add_field(name="ban `username` `reason`", value="Bans the player from the session.", inline=False)
+  embed.add_field(name="kick `username` `reason`", value="Kicks the player from the session.", inline=False)
+  embed.add_field(name="closesession (aliases: cs, csession)", value="Closes the current session channel, use this only if theres no more players in the game.", inline=False)
+  embed.add_field(name="whitelist `user` (aliases: wl)", value="Whitelists the specified player, owner-only command.", inline=False)
+  embed.add_field(name="blacklist `user` (aliases: bl)", value="Blacklists the specified player, owner-only command.", inline=False)
+  embed.add_field(name="bansblacklist (aliases: bbl, bansbl)", value="Removes the specified user's banning capabilities, owner-only command.", inline=False)
+  embed.add_field(name="banswhitelist (aliases: bwl, banswl, bwhitelist)", value="Gives the specified user's banning capabiligies, owner-only command.", inline=False)
+  embed.timestamp = discord.utils.utcnow()
+  embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+  await ctx.send(embed=embed)
 
 @bot.command(aliases=["chatmessage", "cmessage", "chatm"])
 async def cm(ctx, *, message):
