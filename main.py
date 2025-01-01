@@ -358,6 +358,40 @@ async def kick(ctx, player, *, message):
       embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
 
+@bot.command(aliases=["cs", "csession"])
+async def closesession(ctx):
+  if not isinstance(ctx.channel, discord.Thread) and not ctx.channel.name.startswith("hsra-session-"):
+    embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This channel is not a session channel."
+    )
+    embed.timestamp = discord.utils.utcnow()
+    embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+    await ctx.send(embed=embed)
+    return
+  else:
+    try:
+      embed = discord.Embed(
+        color = discord.Color.yellow(),
+        title = "Warning",
+        description = "This session is closing..."
+      )
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96") 
+      await ctx.send(embed=embed)
+      await ctx.channel.delete()
+    except Exception as err:
+      embed = discord.Embed(
+        color = discord.Color.red(),
+        title = "Error",
+        description = "An unexpected error has occured."
+      )
+      embed.add_field(name="Details", value=err, inline=False)
+      embed.timestamp = discord.utils.utcnow()
+      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+      await ctx.send(embed=embed)
+
 def main2():  
   if __name__ == "__main__":
     bot.run(token)
