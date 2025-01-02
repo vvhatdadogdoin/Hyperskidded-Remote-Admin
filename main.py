@@ -443,7 +443,7 @@ async def cm(ctx, *, message):
           description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
-        embed.add_field(name="Request Body", value=request.text, inline=False)
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
       else:
@@ -506,7 +506,7 @@ async def csm(ctx, *, message):
           description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
-        embed.add_field(name="Request Body", value=request.text, inline=False)
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
       else:
@@ -569,7 +569,7 @@ async def ban(ctx, player, *, message):
           description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
-        embed.add_field(name="Request Body", value=request.text, inline=False)
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
       else:
@@ -633,7 +633,7 @@ async def kick(ctx, player, *, message):
           description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
-        embed.add_field(name="Request Body", value=request.text, inline=False)
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
       else:
