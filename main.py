@@ -35,14 +35,14 @@ AUTHORIZATION_HEADERS = {
 
 class Whitelist(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  discord_user_id = db.Column(db.String(100), unique=True, nullable=False)
+  discord_user_id = db.Column(db.BigInteger, unique=True, nullable=False)
 
   def __repr__(self):
     return f'<Whitelist {self.discord_user_id}>'
   
 class BansWhitelist(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  discord_user_id = db.Column(db.String(100), unique=True, nullable=False)
+  discord_user_id = db.Column(db.BigInteger, unique=True, nullable=False)
 
   def __repr__(self):
     return f'<BansWhitelist {self.discord_user_id}>'
