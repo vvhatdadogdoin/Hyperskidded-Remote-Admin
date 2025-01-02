@@ -712,7 +712,7 @@ async def whitelist(ctx, user: discord.User):
     }
 
     try:
-      requests.post(url + "whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      sentrequest = requests.post(url + "whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
       embed = discord.Embed(
         color = discord.Color.green(),
         description = f"Successfully whitelisted {user}",
@@ -721,6 +721,16 @@ async def whitelist(ctx, user: discord.User):
       embed.timestamp = discord.utils.utcnow()
       embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
+      if sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -750,15 +760,26 @@ async def blacklist(ctx, user: discord.User):
     }
 
     try:
-      requests.post(url + "remove-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        description = f"Successfully removed {user}'s whitelist.",
-        title = "Success"
-      )
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      sentrequest = requests.post(url + "remove-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          description = f"Successfully removed {user}'s whitelist.",
+          title = "Success"
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -788,15 +809,26 @@ async def bansblacklist(ctx, user: discord.User):
     }
 
     try:
-      requests.post(url + "remove-bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        description = f"Successfully removed {user}'s ban whitelist.",
-        title = "Success"
-      )
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      sentrequest = requests.post(url + "remove-bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          description = f"Successfully removed {user}'s whitelist.",
+          title = "Success"
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
@@ -826,15 +858,26 @@ async def banswhitelist(ctx, user: discord.User):
     }
 
     try:
-      requests.post(url + "bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      embed = discord.Embed(
-        color = discord.Color.green(),
-        description = f"Successfully whitelisted {user} to use banning commands.",
-        title = "Success"
-      )
-      embed.timestamp = discord.utils.utcnow()
-      embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
-      await ctx.send(embed=embed)
+      sentrequest = requests.post(url + "bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
+      if sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.add_field(name="Request Body", value=sentrequest.text, inline=False)
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      else:
+        embed = discord.Embed(
+          color = discord.Color.green(),
+          description = f"Successfully removed {user}'s whitelist.",
+          title = "Success"
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
     except Exception as err:
       embed = discord.Embed(
         color = discord.Color.red(),
