@@ -129,7 +129,7 @@ def whitelist():
   
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
   
   try:
     existing_user = Whitelist.query.filter_by(discord_user_id=uid).first()
@@ -157,7 +157,7 @@ def removewhitelist():
   
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
   
   try:
     existing_user = Whitelist.query.filter_by(discord_user_id=uid).first()
@@ -202,7 +202,7 @@ def banswhitelist():
 
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
 
   if not uid:
     return jsonify({"status": "error", "message": "User Id is not specified."}), 400
@@ -230,7 +230,7 @@ def removebanswhitelist():
 
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
 
   if not uid:
     return jsonify({"status": "error", "message": "User Id is required."}), 400
@@ -254,7 +254,7 @@ def removebanswhitelist():
 def getbanswhitelists():
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
 
   try:
     bans_whitelist_entries = BansWhitelist.query.all()
@@ -275,7 +275,7 @@ def getbanswhitelists():
 def senddata():
   api_key = request.headers.get('Authorization')
   if api_key != f'Bearer {token}':
-    return jsonify({"status": "authentication_error", "message": "Authentication failed."})
+    return jsonify({"status": "authentication_error", "message": "Authentication failed."}), 404
   
   try:
     data = request.get_json()
@@ -436,6 +436,15 @@ async def cm(ctx, *, message):
         embed.timestamp = discord.utils.utcnow()
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
+      elif sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
       else:
         embed = discord.Embed(
           color = discord.Color.green(),
@@ -485,6 +494,15 @@ async def csm(ctx, *, message):
           color = discord.Color.green(),
           title = "Warning",
           description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      elif sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
@@ -542,6 +560,15 @@ async def ban(ctx, player, *, message):
         embed.timestamp = discord.utils.utcnow()
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
         await ctx.send(embed=embed)
+      elif sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
       else:
         embed = discord.Embed(
           color = discord.Color.green(),
@@ -592,6 +619,15 @@ async def kick(ctx, player, *, message):
           color = discord.Color.green(),
           title = "Warning",
           description = "You are not whitelisted."
+        )
+        embed.timestamp = discord.utils.utcnow()
+        embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
+        await ctx.send(embed=embed)
+      elif sentrequest.status_code == 400:
+        embed = discord.Embed(
+          color = discord.Color.red(),
+          title = "Error",
+          description = "An unexpected error has occured."
         )
         embed.timestamp = discord.utils.utcnow()
         embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
