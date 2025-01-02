@@ -721,7 +721,7 @@ async def whitelist(ctx, user: discord.User):
       embed.timestamp = discord.utils.utcnow()
       embed.set_footer(text="Hyperskidded Remote Admin", icon_url="https://cdn.discordapp.com/avatars/1321260594359177267/34279a0c42273e4df6b596a3a5b042f0.webp?size=96")
       await ctx.send(embed=embed)
-      if sentrequest.status_code == 400:
+      if sentrequest.status_code == 500:
         embed = discord.Embed(
           color = discord.Color.red(),
           title = "Error",
@@ -761,7 +761,7 @@ async def blacklist(ctx, user: discord.User):
 
     try:
       sentrequest = requests.post(url + "remove-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if sentrequest.status_code == 400:
+      if sentrequest.status_code == 500:
         embed = discord.Embed(
           color = discord.Color.red(),
           title = "Error",
@@ -810,7 +810,7 @@ async def bansblacklist(ctx, user: discord.User):
 
     try:
       sentrequest = requests.post(url + "remove-bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if sentrequest.status_code == 400:
+      if sentrequest.status_code == 500:
         embed = discord.Embed(
           color = discord.Color.red(),
           title = "Error",
@@ -859,7 +859,7 @@ async def banswhitelist(ctx, user: discord.User):
 
     try:
       sentrequest = requests.post(url + "bans-whitelist", json=data, headers=AUTHORIZATION_HEADERS, timeout = 40)
-      if sentrequest.status_code == 400:
+      if sentrequest.status_code == 500:
         embed = discord.Embed(
           color = discord.Color.red(),
           title = "Error",
