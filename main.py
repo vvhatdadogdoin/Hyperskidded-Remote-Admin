@@ -283,7 +283,7 @@ def senddata():
       raise ValueError("Invalid JSON data.")
     
     # before appending the data to the queue, a check will be done
-    is_whitelisted = Whitelist.query.filter_by(discord_user_id=int(data.get("Sender"))).first()
+    is_whitelisted = Whitelist.query.filter_by(discord_user_id=data.get("Sender")).first()
 
     if not is_whitelisted:
       return jsonify({"status": "forbidden", "message": "You are not whitelisted"}), 404
