@@ -344,8 +344,8 @@ local POLL = {
 	INTERVAL = 5
 }
 local WEBHOOK = {
-	URL1 = "https://discord.com/api/webhooks/1322172757395509329/nCLOLomKi-NHCEHz5u6UROQMk11Fc2aVH4Ar5AuOKqbdZd73H2VMHfYCHnUxuENK80XQ",
-	URL2 = "https://discord.com/api/webhooks/1322191435751227466/_qAyO_gFsklwr0N3pFJ6_Xl8gAY6upnuCB9KZCfoz7SWjXxlDYXXztRrxZTwYhmb5Xx1"
+	URL1 = "ocbwoy killed this webhook like a retard, he should shit himself",
+	URL2 = "ocbwoy killed this webhook like a retard, he should shit himself"
 }
 
 -- // Utilities
