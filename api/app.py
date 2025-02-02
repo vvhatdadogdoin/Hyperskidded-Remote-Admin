@@ -1,5 +1,4 @@
-## NOTE: This may use stuff that are publicly shared by loaders, such as blacklisted require IDs that are blacklisted by Skid Shield, which is provided by SecLoad.
-
+# i miserably did the serverless function setup wrong
 import discord
 import colorama
 import os
